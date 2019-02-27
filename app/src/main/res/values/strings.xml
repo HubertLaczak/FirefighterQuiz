@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Quiz</string>
+
+    <string-array name="chaptersName">
+        <item>Bezpieczeństwo pożarowe obiektów i budynków</item>
+        <item>Środki Gaśnicze Neutralizatory i Sorbenty</item>
+        <item>Wyposażenie Techniczne i Sprzęt</item>
+        <item>Prawa i Obowiązki Operatora Pojazdu / Sprzętu Pożarniczego</item>
+        <item>Taktyka działań gaśniczych</item>
+        <item>T.D.R. (podst) – Ratownictwo techniczne i chemiczne</item>
+        <item>T.D.R. (spec) – Ratownictwo techniczne i chemiczne</item>
+        <item>T.D.R. (podst) - Działania Poszukiwawczo-Ratownicze</item>
+        <item>T.D.R. (spec) - Działania Poszukiwawczo-Ratownicze</item>
+        <item>T.D.R. (podst) – Ratownictwo wodne</item>
+        <item>T.D.R. (spec) – Ratownictwo wodno-nurkowe</item>
+        <item>Ratownictwo Medyczne</item>
+        <item>T.D.R. (podst) – Ratownictwo Wysokościowe</item>
+        <item>T.D.R. (spec) – Ratownictwo Wysokościowe</item>
+        <item>Łączność</item>
+        <item>Praca Stanowisk Kierowania</item>
+    </string-array>
+
+    <!--<string-array-->
+    <!--name="chaptersName">-->
+    <!--<item>Bezpieczeństwo pożarowe obiektów i budynków</item>-->
+    <!--<item>Środki Gaśnicze Neutralizatory i Sorbenty</item>-->
+    <!--<item>Wyposażenie Techniczne i Sprzęt</item>-->
+    <!--<item>Prawa i Obowiązki Operatora Pojazdu / Sprzętu Pożarniczego</item>-->
+    <!--<item>Taktyka działań gaśniczych</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo techniczne i chemiczne</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo techniczne i chemiczne</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla jednostek podstawowych - Działania Poszukiwawczo-Ratownicze</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych - Działania Poszukiwawczo-Ratownicze</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo wodne</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo wodno-nurkowe</item>-->
+    <!--<item>Ratownictwo Medyczne</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo Wysokościowe</item>-->
+    <!--<item>Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo Wysokościowe</item>-->
+    <!--<item>Łączność</item>-->
+    <!--<item>Praca Stanowisk Kierowania</item>-->
+    <!--</string-array>-->
+
+    <string name="Chapter1">Bezpieczeństwo pożarowe obiektów i budynków</string>
+    <string name="Chapter2">Środki Gaśnicze Neutralizatory i Sorbenty</string>
+    <string name="Chapter3">Wyposażenie Techniczne I Sprzęt</string>
+    <string name="Chapter4">Prawa I Obowiązki Operatora Pojazdu / Sprzętu Pożarniczego</string>
+    <string name="Chapter5">Taktyka działań gaśniczych</string>
+    <string name="Chapter6">Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo techniczne i chemiczne</string>
+    <string name="Chapter7">Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo techniczne i chemiczne</string>
+    <string name="Chapter8">Taktyka działań ratowniczych - dla jednostek podstawowych - Działania Poszukiwawczo-Ratownicze</string>
+    <string name="Chapter9">Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych - Działania Poszukiwawczo-Ratownicze</string>
+    <string name="Chapter10">Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo wodne</string>
+    <string name="Chapter11">Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo wodno-nurkowe</string>
+    <string name="Chapter12">Ratownictwo Medyczne</string>
+    <string name="Chapter13">Taktyka działań ratowniczych - dla jednostek podstawowych – Ratownictwo Wysokościowe</string>
+    <string name="Chapter14">Taktyka działań ratowniczych - dla specjalistycznych grup ratowniczych – Ratownictwo Wysokościowe</string>
+    <string name="Chapter15">Łączność</string>
+    <string name="Chapter16">Praca Stanowisk Kierowania</string>
+
+</resources>
