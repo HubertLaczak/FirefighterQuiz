@@ -72,6 +72,15 @@ public class DatabaseAccessResult {
     }
 
     public int getCorrectCount(String tableName){
+        c = db.rawQuery("SELECT * FROM  '"+tableName+"' WHERE Correct = '"+2+"'", null);
+        int counter = 0;
+        while (c.moveToNext()){
+            counter++;
+        }
+        return counter;
+    }
+
+    public int getWrongCount(String tableName){
         c = db.rawQuery("SELECT * FROM  '"+tableName+"' WHERE Correct = '"+1+"'", null);
         int counter = 0;
         while (c.moveToNext()){
@@ -105,10 +114,27 @@ public class DatabaseAccessResult {
         return counter;
     }
 
+    public String[] getRememberedQuestion(String tableName) {
+        c = db.rawQuery("select Number from " + tableName + " WHERE Remember = '"+1+"'", new String[]{});
+        String [] questionArray = new String[c.getCount()];
+        int i = 0;
+        while (c.moveToNext()){
+            String quest = c.getString(0);
+            questionArray[i] = quest;
+            i++;
+        }
+        return questionArray;
+    }
+
+
     public void deleteResults() { //wysyłanie wszędzie zer, mam nadzieję :)
         ContentValues contentValues = new ContentValues();
         contentValues.put("Remember", 0);
         contentValues.put("Correct", 0);
         db.update("Table1", contentValues, null, null);
+    }
+
+    public void updateSpecificRemember(String tabName, int numerek, int value) {
+
     }
 }

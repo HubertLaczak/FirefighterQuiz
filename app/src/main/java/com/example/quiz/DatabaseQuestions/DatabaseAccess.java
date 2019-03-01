@@ -59,6 +59,8 @@ public class DatabaseAccess {
         return questionArray;
     }
 
+
+
     public ExQuestion getOneQuestion(int number) {
         c = db.rawQuery("SELECT * FROM Table1 WHERE Number = '"+number+"'", null);
         String [] rawArray = new String[c.getColumnCount()];
@@ -73,27 +75,10 @@ public class DatabaseAccess {
     }
 
 
-//    public String[] getName(int number) {
-//        String[] columns = new String[]{ "Question", "WrongAnswer1", "WrongAnswer2", "WrongAnswer3", "WrongAnswer4", "CorrectAnswer" };
-//        Cursor c = db.query("Table1", columns, "Number='"+number+"'", null, null, null, null);
-//        int i = 0;
-//        c.moveToFirst();
-//        String[] names = new String[6];
-//        while(c.moveToNext()) {
-//            String name = c.getString(c.getColumnIndex(columns[i]));
-//            names[i]=name;
-//            c.moveToNext();
-//            i++;
-//        }
-//        c.close();
-//        return names;
-//    }
-
     public String[] getName(int number, String tableName) {
         String[] columns = new String[]{ "Question", "WrongAnswer1", "WrongAnswer2", "WrongAnswer3", "WrongAnswer4", "CorrectAnswer" };
         Cursor c = db.query(tableName, columns, "Number='"+number+"'", null, null, null, null);
         c.moveToFirst();
-        StringBuilder stringBuilder = new StringBuilder();
         String[] names = new String[6];
         for(int i = 0; i < 6; i++){
             names[i] = c.getString(i);
@@ -105,5 +90,18 @@ public class DatabaseAccess {
     public int getRecordsCount(String tableName) {
         int qCount = (int) DatabaseUtils.queryNumEntries(db, tableName);
         return qCount;
+    }
+
+
+    public String[] getQuestionText(String tableName, String number) {
+        String[] columns = new String[]{ "Question", "WrongAnswer1", "WrongAnswer2", "WrongAnswer3", "WrongAnswer4", "CorrectAnswer" };
+        Cursor c = db.query(tableName, columns, "Number='"+number+"'", null, null, null, null);
+        c.moveToFirst();
+        String[] names = new String[6];
+        for(int i = 0; i < 6; i++){
+            names[i] = c.getString(i);
+        }
+        c.close();
+        return names;
     }
 }

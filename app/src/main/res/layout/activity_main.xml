@@ -4,7 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Aplikacja"
+            android:textColor="@android:color/white"/>
+    </android.support.v7.widget.Toolbar>
+
+
+
 
     <Button
         android:id="@+id/btn_Chapters"
@@ -34,15 +56,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Losuj test"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Remember"
         app:layout_constraintEnd_toEndOf="@+id/btn_AllQuestions"
         app:layout_constraintStart_toStartOf="@+id/btn_AllQuestions" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_Remember"
         android:layout_width="0dp"
         android:layout_height="51dp"
         android:layout_marginBottom="60dp"
+        android:text="Zapamiętane pytania"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_Test"
         app:layout_constraintHorizontal_bias="1.0"

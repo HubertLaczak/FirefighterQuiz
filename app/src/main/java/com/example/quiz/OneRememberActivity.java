@@ -1,17 +1,25 @@
 package com.example.quiz;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.quiz.DatabaseQuestions.DatabaseAccess;
+import android.widget.Toast;
+import com.example.quiz.DatabaseResults.DatabaseAccessResult;
+import java.util.ArrayList;
 import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TestActivity extends AppCompatActivity {
+public class OneRememberActivity extends AppCompatActivity {
+
+    @BindView(R.id.tv_Question) TextView tv_Question;
 
     @BindView(R.id.btn_Answer1) Button btn_Answer1;
     @BindView(R.id.btn_Answer2) Button btn_Answer2;
@@ -20,49 +28,77 @@ public class TestActivity extends AppCompatActivity {
     @BindView(R.id.btn_Answer5) Button btn_Answer5;
 
     @BindView(R.id.btn_Next) Button btn_Next;
+    @BindView(R.id.btn_Previous) Button btn_Previous;
 
-    @BindView(R.id.tv_Question) TextView tv_Question;
     @BindView(R.id.tv_1PerAll) TextView tv_1PerAll;
 
+    private DatabaseAccessResult databaseAccessResult;
 
-    private DatabaseAccess databaseAccess; //referencja do bazy z pytaniami
-    private String[] newData = new String[6]; //array który ma pytanie i 5 odpowiedzi
-
+    private int position;
+    private String[][] tablica;
+    private ArrayList<Integer> wykluczone = new ArrayList<>();
+    private Menu menu;
+    private MenuItem itemStar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_one_remember);
         ButterKnife.bind(this);
+        databaseAccessResult = DatabaseAccessResult.getInstance(getApplicationContext());
 
-        setTitle("Test");
+        Intent intent = getIntent();
+        position = intent.getIntExtra("position", 0)-1;
 
-        databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-        loadFromDataBase(1, "Table1");
-
-    }
-
-    private void loadFromDataBase(int questionId, String tableName) {
-        databaseAccess.open();
-        newData = databaseAccess.getName(questionId, tableName);
-        databaseAccess.close();
-        changeTexts(newData);
+        Bundle b = getIntent().getExtras();
+        tablica = (String[][])b.getSerializable("Array");
+        changeTexts(tablica[position]);
     }
 
     @OnClick(R.id.btn_Next)
     public void setBtn_Next(){
-        int max = 56;
-        int min = 1;
-        int range = max - min + 1;
-        int rand = (int)(Math.random() * range) + min;
-        loadFromDataBase(rand, "Table1");
+        itemStar.setIcon(R.drawable.ic_star_yes);
+        if(position+1 < tablica.length){
+            for( int i = 0; i< wykluczone.size(); i++){
+                if ((position+1) == wykluczone.get(i)){
+                    position++;
+                    break;
+                }
+            }
+            position++;
+            changeTexts(tablica[position]);
+            btn_Previous.setEnabled(true);
+        } else {
+            btn_Next.setEnabled(false);
+            Toast.makeText(this, "To jest ostatnie pytanie!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.btn_Previous)
+    public void setBtn_Previous(){
+        itemStar.setIcon(R.drawable.ic_star_yes);
+        if(position+1 > 1){
+            for (int i = 0; i<wykluczone.size(); i++){
+                if ((position-1) == wykluczone.get(i)){
+                    position--;
+                    break;
+                }
+            }
+            position--;
+            changeTexts(tablica[position]);
+            btn_Next.setEnabled(true);
+        } else {
+            btn_Previous.setEnabled(false);
+            Toast.makeText(this, "To jest pierwsze pytanie!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void changeTexts(String[] newData){
         int k = enableSpareButtons(newData);
         Random rand = new Random();
         int a = rand.nextInt(k);
-        tv_Question.setText(newData[0]);
+        tv_Question.setText(tablica[position][0]);
+        tv_1PerAll.setText(String.valueOf(position+1) + "/" + String.valueOf(tablica.length-wykluczone.size()));
         if (k == 5){
             if (a == 0){
                 btn_Answer1.setText(newData[1]);
@@ -152,4 +188,47 @@ public class TestActivity extends AppCompatActivity {
         return k;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu3, menu);
+        this.menu = menu;
+        itemStar = menu.findItem(R.id.item1);
+
+//        getIfRemembered(questionId);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                if (item.getIcon().getConstantState().equals(
+                        getResources().getDrawable(R.drawable.ic_star_yes).getConstantState())) {
+                    item.setIcon(R.drawable.ic_star_no);
+                    updateRemember(tablica[position][6], 0);
+                        wykluczone.add(position);
+                }
+                else {
+                    item.setIcon(R.drawable.ic_star_yes);
+                    updateRemember(tablica[position][6], 1);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateRemember(String questionID, int value) {
+        String tabName;
+        int numerek = Integer.parseInt(questionID);
+        if (numerek < 57)
+            tabName = "Table1";
+        else
+            tabName = "Table2";
+
+
+        databaseAccessResult.open();
+        databaseAccessResult.updateRemember(numerek, value, tabName);
+        databaseAccessResult.close();
+    }
 }

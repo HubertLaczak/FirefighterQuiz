@@ -6,12 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import com.example.quiz.DatabaseResults.DatabaseAccessResult;
 import com.example.quiz.Others.ExChapter;
 import com.example.quiz.Others.ExampleAdapterChapter;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ChaptersActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
 
     private ArrayList<ExChapter> chaptersList = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -29,6 +36,12 @@ public class ChaptersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapters);
 
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true);
+        getSupportActionBar().setHomeAsUpIndicator( getResources().getDrawable( R.drawable.ic_backarrow ));
+
         Resources res = getResources();
         aTitle = res.getStringArray(R.array.chaptersName);
         for (int i = 0; i < aTitle.length; i++){
@@ -40,8 +53,7 @@ public class ChaptersActivity extends AppCompatActivity {
         for (int i = 0; i < 2; i++){
             databaseAccessResult.open();
             int valid = databaseAccessResult.getCorrectCount("Table"+ String.valueOf(i+1));
-            int resultCount = databaseAccessResult.getRecordCount("Table"+ String.valueOf(i+1));
-            int invalid = resultCount - valid;
+            int invalid = databaseAccessResult.getWrongCount("Table"+ String.valueOf(i+1));
             int remembered = databaseAccessResult.getRememberCount("Table"+ String.valueOf(i+1));
             databaseAccessResult.close();
 
@@ -117,6 +129,8 @@ public class ChaptersActivity extends AppCompatActivity {
                 intent.putExtra("questionId", questionId);
                 intent.putExtra("helper", helper);
                 startActivity(intent);
+
+
             }
         });
 
@@ -124,47 +138,21 @@ public class ChaptersActivity extends AppCompatActivity {
     }
 
 
-//    private void loadTestFile(ArrayList<ExQuestion> nextExampleList, String reference) {
-//        JSONObject test = createJSONFromFile(R.raw.pytania);
-//        JSONArray arr = null;
-//        try {
-//            arr = test.getJSONArray(reference);
-//            for (int i = 0; i < arr.length(); i++)
-//            {
-//                String number = arr.getJSONObject(i).getString("Number");
-//                String question = arr.getJSONObject(i).getString("Question");
-//                String wrongAnswer1 = arr.getJSONObject(i).getString("WrongAnswer1");
-//                String wrongAnswer2 = arr.getJSONObject(i).getString("WrongAnswer2");
-//                String wrongAnswer3 = arr.getJSONObject(i).getString("WrongAnswer3");
-//                String wrongAnswer4 = arr.getJSONObject(i).getString("WrongAnswer4");
-//                String correctAnswer = arr.getJSONObject(i).getString("CorrectAnswer");
-//                nextExampleList.add(new ExQuestion(number, question,  wrongAnswer1, wrongAnswer2, wrongAnswer3, wrongAnswer4, correctAnswer ));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private JSONObject createJSONFromFile(int fileID) {
-//        JSONObject result = null;
-//        try {
-//            InputStream inputStream = getResources().openRawResource(fileID);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//            StringBuilder builder = new StringBuilder();
-//
-//            for (String line = null; (line = reader.readLine()) != null ; ) {
-//                builder.append(line).append("\n");
-//            }
-//
-//            String resultStr = builder.toString();
-//            JSONTokener tokener = new JSONTokener(resultStr);
-//            result = new JSONObject(tokener);
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        return result;
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
 
 }

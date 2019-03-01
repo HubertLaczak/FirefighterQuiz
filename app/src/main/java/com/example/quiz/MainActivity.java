@@ -1,19 +1,14 @@
 package com.example.quiz;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.example.quiz.Others.DatabaseHelper;
-import com.example.quiz.Others.ExQuestion;
-import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,13 +18,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn_AllQuestions) Button btn_AllQuestions;
     @BindView(R.id.btn_Chapters) Button btn_Chapters;
     @BindView(R.id.btn_Test) Button btn_Test;
+    @BindView(R.id.btn_Remember) Button btn_Remember;
 
-    final ArrayList<ExQuestion> exampleList_1 = new ArrayList<>();
-    final ArrayList<ExQuestion> exampleList_2 = new ArrayList<>();
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    DatabaseHelper myDb;
-    private  ArrayList<ExQuestion> exampleList;
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,43 +29,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-//        databaseAccess.open();
-//        String raw = databaseAccess.getRaw("3");
-//        Toast.makeText(this, raw, Toast.LENGTH_SHORT).show();
-//        databaseAccess.close();
+        setSupportActionBar(toolbar);
 
-
-
-//        exampleList = exampleList_1;
-//
-//        File dbFile = getApplicationContext().getDatabasePath("results.db");
-//        if (!dbFile.exists()) {
-//            myDb = DatabaseHelper.getInstance(this);
-//            addDate(exampleList_1);
-//            Toast.makeText(this, "jeden", Toast.LENGTH_SHORT).show();
-//        } else {
-//            myDb = DatabaseHelper.getInstance(this);
-//            Toast.makeText(this, "dwa", Toast.LENGTH_SHORT).show();
-//        }
-
-//        File dbFile2 = getApplicationContext().getDatabasePath("questions.db");
-//        if (!dbFile2.exists()) {
-//            myDb = DatabaseHelper.getInstance(this);
-//            addDate(exampleList_1);
-//            Toast.makeText(this, "jeden", Toast.LENGTH_SHORT).show();
-//        } else {
-//            myDb = DatabaseHelper.getInstance(this);
-//            Toast.makeText(this, "dwa", Toast.LENGTH_SHORT).show();
-//        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
 
-//    public void addDate(ArrayList<ExQuestion> exampleList){
-//        for (int i = 0; i < exampleList.size(); i++){
-//                myDb.insertData(String.valueOf(R.string.Chapter1), exampleList.get(i).getNumber(),1,0);
-//        }
-//    }
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
 
     @OnClick(R.id.btn_AllQuestions)
     public void setBtn_AllQuestions(){
@@ -93,14 +69,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_Remember)
+    public void setBtn_Remember(){
+        Intent intent = new Intent(MainActivity.this, RememberActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu2, menu);
-        this.menu = menu;
-//        itemStar = menu.findItem(R.id.item1);
-//        getIfRemembered(questionId);
         return true;
     }
 
@@ -108,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item1:
-                Toast.makeText(this, "Clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

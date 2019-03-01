@@ -98,9 +98,9 @@ public class OneQuestionActivity extends AppCompatActivity {
     private void loadUICorrect(String tableName) {
         databaseAccessResult.open();
         int valid = databaseAccessResult.getCorrectCount(tableName);
+        int invalid = databaseAccessResult.getWrongCount(tableName);
         databaseAccessResult.close();
 
-        int invalid = resultCount - valid;
         tv_Correct.setText(String.valueOf(valid) + "/" + String.valueOf(resultCount));
         tv_Incorrent.setText(String.valueOf(invalid) + "/" + String.valueOf(resultCount));
     }
@@ -136,7 +136,6 @@ public class OneQuestionActivity extends AppCompatActivity {
         databaseAccessResult.close();
     }
 
-
     private void howManyQuestions(String tableName) {
         databaseAccess.open();
         qCount = databaseAccess.getRecordsCount(tableName);
@@ -155,7 +154,6 @@ public class OneQuestionActivity extends AppCompatActivity {
         databaseAccessResult.deleteResults();
         databaseAccessResult.close();
     }
-
 
     public void changeTexts(String[] newData){
         int k = enableSpareButtons(newData);
@@ -234,7 +232,6 @@ public class OneQuestionActivity extends AppCompatActivity {
 
     }
 
-
     @OnClick(R.id.btn_Next)
     public void toNextQuestion(){
         if(questionId-helper < qCount){
@@ -287,7 +284,6 @@ public class OneQuestionActivity extends AppCompatActivity {
         tv_1PerAll.setText( questionId-helper + "/" + qCount);
         return true;
     }
-
 
     private int enableSpareButtons(String[] newData){
         int k = 5;
@@ -386,9 +382,9 @@ public class OneQuestionActivity extends AppCompatActivity {
                 break;
         }
         if (dobrze){
-            updateCorrect(questionId, 1, tableName);
+            updateCorrect(questionId, 2, tableName); //dobrze odpowiedziałem
         } else {
-            updateCorrect(questionId, 0, tableName);
+            updateCorrect(questionId, 1, tableName); //źle odpowiedziałem
         }
 
         loadUICorrect(tableName);

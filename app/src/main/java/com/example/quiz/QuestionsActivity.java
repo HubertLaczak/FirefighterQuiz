@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
 import com.example.quiz.DatabaseQuestions.DatabaseAccess;
 import com.example.quiz.OnlyQuestion.OnlyQuestionAdapter;
 import butterknife.BindView;
@@ -14,6 +17,7 @@ import butterknife.ButterKnife;
 public class QuestionsActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private OnlyQuestionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -24,6 +28,11 @@ public class QuestionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true);
+        getSupportActionBar().setHomeAsUpIndicator( getResources().getDrawable( R.drawable.ic_backarrow ));
+
 
         //pobieranie wszystkich pytań, samych pytań
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
@@ -69,5 +78,22 @@ public class QuestionsActivity extends AppCompatActivity {
 //                finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }
