@@ -1,11 +1,7 @@
 package com.example.quiz;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,15 +11,21 @@ import com.example.quiz.OnlyQuestion.OnlyQuestionAdapter;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RememberActivity extends AppCompatActivity {
 
-    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
     @BindView(R.id.tv_EmptyList) TextView tv_EmptyList;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private OnlyQuestionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

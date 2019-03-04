@@ -1,14 +1,17 @@
 package com.example.quiz;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import com.ramotion.circlemenu.CircleMenuView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn_Test) Button btn_Test;
     @BindView(R.id.btn_Remember) Button btn_Remember;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 
     @Override
@@ -31,7 +35,38 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+
+
+        final CircleMenuView menu = findViewById(R.id.circleMenu);
+        menu.setEventListener(new CircleMenuView.EventListener() {
+            @Override
+            public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
+                Log.d("D", "onButtonClickAnimationEnd| index: " + index);
+                switch (index) {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, ChaptersActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this, StatsActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(MainActivity.this, RememberActivity.class));
+                        break;
+                    case 4:
+                        startActivity(new Intent(MainActivity.this, QuestionsActivity.class));
+                        break;
+                }
+            }
+
+        });
+
+
     }
+
+
 
     @Override
     protected void onResume() {

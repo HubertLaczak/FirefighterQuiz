@@ -1,8 +1,6 @@
 package com.example.quiz;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
@@ -20,6 +18,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,7 +34,8 @@ public class StatsActivity extends AppCompatActivity {
 
 
     @BindView(R.id.chart) PieChart chart;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     double[] results = new double[3];
     double sumaPytan;

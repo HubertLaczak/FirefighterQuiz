@@ -1,7 +1,7 @@
 package com.example.quiz;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.quiz.DatabaseResults.DatabaseAccessResult;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,6 +36,10 @@ public class OneRememberActivity extends AppCompatActivity {
     @BindView(R.id.btn_Previous) Button btn_Previous;
 
     @BindView(R.id.tv_1PerAll) TextView tv_1PerAll;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private ArrayList<Button> buttonArray = new ArrayList<>();
 
     private DatabaseAccessResult databaseAccessResult;
 
@@ -46,6 +55,11 @@ public class OneRememberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_one_remember);
         ButterKnife.bind(this);
         databaseAccessResult = DatabaseAccessResult.getInstance(getApplicationContext());
+        buttonArray.addAll(Arrays.asList(btn_Answer1, btn_Answer2, btn_Answer3, btn_Answer4, btn_Answer5));
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true);
+        getSupportActionBar().setHomeAsUpIndicator( getResources().getDrawable( R.drawable.ic_backarrow ));
 
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0)-1;
@@ -67,6 +81,8 @@ public class OneRememberActivity extends AppCompatActivity {
             }
             position++;
             changeTexts(tablica[position]);
+            resetColors();
+
             btn_Previous.setEnabled(true);
         } else {
             btn_Next.setEnabled(false);
@@ -86,6 +102,8 @@ public class OneRememberActivity extends AppCompatActivity {
             }
             position--;
             changeTexts(tablica[position]);
+            resetColors();
+
             btn_Next.setEnabled(true);
         } else {
             btn_Previous.setEnabled(false);
@@ -230,5 +248,138 @@ public class OneRememberActivity extends AppCompatActivity {
         databaseAccessResult.open();
         databaseAccessResult.updateRemember(numerek, value, tabName);
         databaseAccessResult.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    ///////////////
+    private void color5(){
+        btn_Answer1.setBackgroundColor(Color.RED);
+        btn_Answer2.setBackgroundColor(Color.RED);
+        btn_Answer3.setBackgroundColor(Color.RED);
+        btn_Answer4.setBackgroundColor(Color.RED);
+        btn_Answer5.setBackgroundColor(Color.RED);
+    }
+
+    private int checkAnswer(){
+        int which = 0;
+        if(tablica[position][5].equals(btn_Answer1.getText().toString())) {
+            btn_Answer1.setBackgroundColor(Color.GREEN);
+            which = 1;
+        }
+        if(tablica[position][5].equals(btn_Answer2.getText().toString())) {
+            btn_Answer2.setBackgroundColor(Color.GREEN);
+            which = 2;
+        }
+        if(tablica[position][5].equals(btn_Answer3.getText().toString())) {
+            btn_Answer3.setBackgroundColor(Color.GREEN);
+            which = 3;
+        }
+        if(tablica[position][5].equals(btn_Answer4.getText().toString())) {
+            btn_Answer4.setBackgroundColor(Color.GREEN);
+            which = 4;
+        }
+        if(tablica[position][5].equals(btn_Answer5.getText().toString())) {
+            btn_Answer5.setBackgroundColor(Color.GREEN);
+            which = 5;
+        }
+        return which;
+    }
+
+    private void makeButtonsColor(int which){
+        buttonArray.remove(which-1);
+        for (int i = 0; i < buttonArray.size(); i++)
+            buttonArray.get(i).setBackgroundColor(Color.parseColor("#37000000"));
+        buttonArray.clear();
+        buttonArray.addAll(Arrays.asList(btn_Answer1, btn_Answer2, btn_Answer3, btn_Answer4, btn_Answer5));
+    }
+
+
+    @OnClick({R.id.btn_Answer1,R.id.btn_Answer2,R.id.btn_Answer3,R.id.btn_Answer4,R.id.btn_Answer5})
+    public void afterAnswer(View view){
+        color5();
+        int which = checkAnswer();
+        boolean dobrze = false;
+        switch(view.getId()){
+            case R.id.btn_Answer1:
+                if(which == 1) {
+                    makeButtonsColor(which);
+                    dobrze = true;
+                }
+                break;
+            case R.id.btn_Answer2:
+                if(which == 2) {
+                    makeButtonsColor(which);
+                    dobrze = true;
+                }
+                break;
+            case R.id.btn_Answer3:
+                if(which == 3) {
+                    makeButtonsColor(which);
+                    dobrze = true;
+                }
+                break;
+            case R.id.btn_Answer4:
+                if(which == 4) {
+                    makeButtonsColor(which);
+                    dobrze = true;
+                }
+                break;
+            case R.id.btn_Answer5:
+                if(which == 5) {
+                    makeButtonsColor(which);
+                    dobrze = true;
+                }
+                break;
+        }
+        String tableName = null;
+        if(Integer.parseInt(tablica[position][6]) < 57){
+            tableName = "Table1";
+        }
+        if(58< Integer.parseInt(tablica[position][6]) && Integer.parseInt(tablica[position][6]) < 94){
+            tableName = "Table2";
+        }
+
+
+
+        if (dobrze){
+            updateCorrect(Integer.parseInt(tablica[position][6]), 2, tableName); //dobrze odpowiedziałem
+        } else {
+            updateCorrect(Integer.parseInt(tablica[position][6]), 1, tableName); //źle odpowiedziałem
+        }
+
+
+        for (int i = 0; i < buttonArray.size(); i++){
+            buttonArray.get(i).setEnabled(false);
+        }
+    }
+
+    private void updateCorrect(int questionId, int i, String tableName){
+        databaseAccessResult.open();
+        databaseAccessResult.updateCorrect(questionId, i, tableName);
+        databaseAccessResult.close();
+    }
+
+
+    private void resetColors(){
+        for (int i = 0; i < buttonArray.size(); i++){
+            buttonArray.get(i).setEnabled(true);
+            buttonArray.get(i).setBackgroundColor(Color.parseColor("#37000000"));
+        }
     }
 }

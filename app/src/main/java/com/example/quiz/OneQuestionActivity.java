@@ -3,8 +3,6 @@ package com.example.quiz;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.quiz.DatabaseQuestions.DatabaseAccess;
 import com.example.quiz.DatabaseResults.DatabaseAccessResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,6 +28,7 @@ import butterknife.OnLongClick;
 public class OneQuestionActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_Question) TextView tv_Question;
+    @BindView(R.id.tv_barTitle) TextView tv_barTitle;
 
     @BindView(R.id.btn_Answer1) Button btn_Answer1;
     @BindView(R.id.btn_Answer2) Button btn_Answer2;
@@ -41,6 +45,9 @@ public class OneQuestionActivity extends AppCompatActivity {
     @BindView(R.id.tv_Remember) TextView tv_Remember;
 
     @BindView(R.id.tv_1PerAll) TextView tv_1PerAll;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     private ArrayList<Button> buttonArray = new ArrayList<>();
 
@@ -65,11 +72,17 @@ public class OneQuestionActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         buttonArray.addAll(Arrays.asList(btn_Answer1, btn_Answer2, btn_Answer3, btn_Answer4, btn_Answer5));
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true);
+        getSupportActionBar().setHomeAsUpIndicator( getResources().getDrawable( R.drawable.ic_backarrow ));
+
         resetColors();
         Intent intent = getIntent();
         questionId = intent.getIntExtra("questionId", 0);
         helper = intent.getIntExtra("helper", 0);
+        tv_barTitle.setText(intent.getStringExtra("title"));
 
+        chooseTable(questionId);
         chooseTable(questionId);
         //baza z pytaniami
         databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
@@ -388,7 +401,11 @@ public class OneQuestionActivity extends AppCompatActivity {
         }
 
         loadUICorrect(tableName);
-        setDisabled();
+
+
+        for (int i = 0; i < buttonArray.size(); i++){
+            buttonArray.get(i).setEnabled(false);
+        }
     }
 
 
@@ -397,14 +414,6 @@ public class OneQuestionActivity extends AppCompatActivity {
             buttonArray.get(i).setEnabled(true);
             buttonArray.get(i).setBackgroundColor(Color.parseColor("#37000000"));
         }
-    }
-
-    public void setDisabled(){
-        btn_Answer1.setEnabled(false);
-        btn_Answer2.setEnabled(false);
-        btn_Answer3.setEnabled(false);
-        btn_Answer4.setEnabled(false);
-        btn_Answer5.setEnabled(false);
     }
 
     @Override
@@ -458,5 +467,21 @@ public class OneQuestionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
 
 }

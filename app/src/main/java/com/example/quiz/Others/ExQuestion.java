@@ -13,15 +13,15 @@ public class ExQuestion implements Parcelable {
     private String correctAnswer;
 
 
-    public ExQuestion(String number, String question, String wrongAnswer1, String wrongAnswer2, String wrongAnswer3, String wrongAnswer4, String correctAnswer) {
-        this.number = number;
-        this.question = question;
-        this.wrongAnswer1 = wrongAnswer1;
-        this.wrongAnswer2 = wrongAnswer2;
-        this.wrongAnswer3 = wrongAnswer3;
-        this.wrongAnswer4 = wrongAnswer4;
-        this.correctAnswer = correctAnswer;
-    }
+//    public ExQuestion(String number, String question, String wrongAnswer1, String wrongAnswer2, String wrongAnswer3, String wrongAnswer4, String correctAnswer) {
+//        this.number = number;
+//        this.question = question;
+//        this.wrongAnswer1 = wrongAnswer1;
+//        this.wrongAnswer2 = wrongAnswer2;
+//        this.wrongAnswer3 = wrongAnswer3;
+//        this.wrongAnswer4 = wrongAnswer4;
+//        this.correctAnswer = correctAnswer;
+//    }
 
     protected ExQuestion(Parcel in) {
         number = in.readString();
@@ -61,36 +61,31 @@ public class ExQuestion implements Parcelable {
         dest.writeString(correctAnswer);
     }
 
-
-
-
-
-
-    public String getNumber() {
-        return number;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getWrongAnswer1() {
-        return wrongAnswer1;
-    }
-
-    public String getWrongAnswer2() {
-        return wrongAnswer2;
-    }
-
-    public String getWrongAnswer3() {
-        return wrongAnswer3;
-    }
-
-    public String getWrongAnswer4() {
-        return wrongAnswer4;
-    }
-
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
+//    public String getNumber() {
+//        return number;
+//    }
+//
+//    public String getQuestion() {
+//        return question;
+//    }
+//
+//    public String getWrongAnswer1() {
+//        return wrongAnswer1;
+//    }
+//
+//    public String getWrongAnswer2() {
+//        return wrongAnswer2;
+//    }
+//
+//    public String getWrongAnswer3() {
+//        return wrongAnswer3;
+//    }
+//
+//    public String getWrongAnswer4() {
+//        return wrongAnswer4;
+//    }
+//
+//    public String getCorrectAnswer() {
+//        return correctAnswer;
+//    }
 }

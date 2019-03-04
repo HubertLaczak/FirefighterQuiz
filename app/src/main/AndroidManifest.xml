@@ -9,8 +9,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/AppTheme3">
-        <activity android:name=".OneRememberActivity"></activity>
+        <activity android:name=".OneRememberActivity"
+            android:parentActivityName=".RememberActivity"/>
         <activity android:name=".StatsActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".TestActivity" />
@@ -20,7 +22,8 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme2"
             />
-        <activity android:name=".OneQuestionActivity" />
+        <activity android:name=".OneQuestionActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".QuestionsActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">

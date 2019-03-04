@@ -1,12 +1,20 @@
 package com.example.quiz;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.quiz.DatabaseQuestions.DatabaseAccess;
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,6 +32,7 @@ public class TestActivity extends AppCompatActivity {
     @BindView(R.id.tv_Question) TextView tv_Question;
     @BindView(R.id.tv_1PerAll) TextView tv_1PerAll;
 
+    @BindView(R.id.toolbar)  Toolbar toolbar;
 
     private DatabaseAccess databaseAccess; //referencja do bazy z pytaniami
     private String[] newData = new String[6]; //array który ma pytanie i 5 odpowiedzi
@@ -35,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
-        setTitle("Test");
+        setSupportActionBar(toolbar);
 
         databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         loadFromDataBase(1, "Table1");
@@ -150,6 +159,41 @@ public class TestActivity extends AppCompatActivity {
             btn_Answer4.setVisibility(View.VISIBLE);
         }
         return k;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu4, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Intent intent = new Intent(TestActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
 }

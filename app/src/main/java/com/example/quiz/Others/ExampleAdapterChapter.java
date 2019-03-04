@@ -1,7 +1,5 @@
 package com.example.quiz.Others;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +8,8 @@ import android.widget.TextView;
 import com.example.quiz.R;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ExampleAdapterChapter extends RecyclerView.Adapter<ExampleAdapterChapter.ExampleViewHolder> {
 
@@ -60,7 +60,7 @@ public class ExampleAdapterChapter extends RecyclerView.Adapter<ExampleAdapterCh
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExampleViewHolder exampleViewHolder, int i) {
+    public void onBindViewHolder(ExampleViewHolder exampleViewHolder, int i) {
         ExChapter currentItem = mExampleList.get(i);
         exampleViewHolder.tv_ChapterCount.setText(String.valueOf(currentItem.getChapterNumber()));
         exampleViewHolder.tv_ChaptersName.setText(currentItem.getChapterName());

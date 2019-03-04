@@ -1,15 +1,17 @@
 package com.example.quiz;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.quiz.DatabaseQuestions.DatabaseAccess;
 import com.example.quiz.OnlyQuestion.OnlyQuestionAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,6 +23,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
     private OnlyQuestionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String[] aTitle;
 
 
     @Override
@@ -60,6 +63,8 @@ public class QuestionsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        Resources res = getResources();
+        aTitle = res.getStringArray(R.array.chaptersName);
 
 
         mAdapter.setOnItemClickListener(new OnlyQuestionAdapter.OnItemClickListener() {
@@ -67,15 +72,17 @@ public class QuestionsActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 Intent intent = new Intent(QuestionsActivity.this, OneQuestionActivity.class);
                 intent.putExtra("questionId", position+1);
+                int select = 0;
 
-
-                if(position+1 > 57) {
+                if(position+1 < 57)
+                    select = 0;
+                if(position+1 >= 58) {
                     intent.putExtra("helper", 57);
+                    select = 1;
                 }
 
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("title", aTitle[select]);
                 startActivity(intent);
-//                finish();
             }
         });
     }

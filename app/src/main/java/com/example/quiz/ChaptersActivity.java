@@ -1,23 +1,25 @@
 package com.example.quiz;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+
 import com.example.quiz.DatabaseResults.DatabaseAccessResult;
 import com.example.quiz.Others.ExChapter;
 import com.example.quiz.Others.ExampleAdapterChapter;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChaptersActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 
     private ArrayList<ExChapter> chaptersList = new ArrayList<>();
@@ -128,13 +130,10 @@ public class ChaptersActivity extends AppCompatActivity {
                 Intent intent = new Intent(ChaptersActivity.this, OneQuestionActivity.class);
                 intent.putExtra("questionId", questionId);
                 intent.putExtra("helper", helper);
+                intent.putExtra("title", aTitle[position]);
                 startActivity(intent);
-
-
             }
         });
-
-
     }
 
 
